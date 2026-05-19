@@ -1,4 +1,4 @@
-import * as dotenv from 'dotenv';
+import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -6,11 +6,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TrainersModule } from './trainers/trainers.module';
 import { PokemonsModule } from './pokemons/pokemons.module';
 
-dotenv.config();
-
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URL),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    MongooseModule.forRoot(process.env.MONGO_URL!),
     TrainersModule,
     PokemonsModule,
   ],

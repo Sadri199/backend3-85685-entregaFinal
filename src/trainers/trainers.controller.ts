@@ -22,7 +22,8 @@ export class TrainersController {
 
   @Get()
   findAll() {
-    return this.trainersService.findAll();
+    const data = this.trainersService.findAll();
+    return data;
   }
 
   @Get(':id')
