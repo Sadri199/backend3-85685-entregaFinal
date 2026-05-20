@@ -28,13 +28,13 @@ export class TrainersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.trainersService.findOne(+id);
+    return this.trainersService.findOne(id);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateTrainerDto: UpdateTrainerDto) {
-    return this.trainersService.update(+id, updateTrainerDto);
-  }
+    return this.trainersService.update(id, updateTrainerDto);
+  } //crear otro put para adoptar pkmn
 
   @Delete(':id')
   remove(@Param('id') id: string) {
