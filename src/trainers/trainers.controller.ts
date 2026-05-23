@@ -38,6 +38,6 @@ export class TrainersController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.trainersService.remove(+id);
+    return this.trainersService.remove(id);
   }
 }

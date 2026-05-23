@@ -80,7 +80,8 @@ export class TrainersService {
     if (isNaN(updateTrainerDto.age))
       throw new HttpException('Age must be a number!', HttpStatus.BAD_REQUEST);
 
-    if (updateTrainerDto.first_name.length < 2) //validar class-validator y class-transform, reemplazaria a Zod
+    if (updateTrainerDto.first_name.length < 2)
+      //validar class-validator y class-transform, reemplazaria a Zod
       throw new HttpException(
         'first_name must have at least 2 characters.',
         HttpStatus.BAD_REQUEST,
@@ -94,12 +95,15 @@ export class TrainersService {
     const update = await this.trainersModel.findByIdAndUpdate(
       id,
       updateTrainerDto,
+      {
+        returnDocument: 'after',
+      },
     );
 
     return update;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} trainer`;
+  async remove(id: string) {
+    return await this.trainersModel.findByIdAndDelete(id);
   }
 }

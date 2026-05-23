@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TrainersModule } from './trainers/trainers.module';
 import { PokemonsModule } from './pokemons/pokemons.module';
+import { AdoptionsModule } from './adoptions/adoptions.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PokemonsModule } from './pokemons/pokemons.module';
     MongooseModule.forRoot(process.env.MONGO_URL!),
     TrainersModule,
     PokemonsModule,
+    AdoptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
