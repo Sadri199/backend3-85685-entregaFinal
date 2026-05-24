@@ -1,26 +1,136 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import { CreateAdoptionDto } from './dto/create-adoption.dto';
 import { UpdateAdoptionDto } from './dto/update-adoption.dto';
+import { Trainer, TrainersDocument } from '../trainers/schema/trainers.schema';
+import { Pokemon, PokemonsDocument } from '../pokemons/schema/pokemons.schema';
 
 @Injectable()
 export class AdoptionsService {
-  create(createAdoptionDto: CreateAdoptionDto) {
-    return 'This action adds a new adoption';
+  constructor(
+    @InjectModel(Trainer.name) private trainersModel: Model<TrainersDocument>,
+    @InjectModel(Pokemon.name) private pokemonsModel: Model<PokemonsDocument>,
+  ) {}
+
+  async create(id: string, createAdoptionDto: CreateAdoptionDto) {
+    try {
+      const validateTrainer = await this.trainersModel.findById(id);
+      const findPokemon = validateTrainer?.pokemons.find(
+        (e) => e === createAdoptionDto.pokemonId,
+      );
+      if (findPokemon) throw new Error('Pokemon found');
+    } catch (err) {
+      if (err?.message === 'Pokemon found') {
+        throw new HttpException(
+          `That Pokemon is already adopted by Trainer ${id}, try with another Pokemon.`,
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new HttpException(
+          'Invalid Trainer ID, validate the value and try again.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+    try {
+      const validatePokemon = await this.pokemonsModel.findById(
+        createAdoptionDto.pokemonId,
+      );
+      if (validatePokemon!.trainer.length > 0)
+        throw new Error('Pokemon Owned');
+    } catch (err) {
+      if (err.message === 'Pokemon Owned') {
+        throw new HttpException(
+          `That Pokemon has an owner, it cannot be adopted.`,
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new HttpException(
+          'Invalid Pokemon ID, validate the value and try again.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+
+    try {
+      const updatedTrainer = await this.trainersModel.findByIdAndUpdate(
+        id,
+        { $push: { pokemons: createAdoptionDto.pokemonId } },
+        { returnDocument: 'after' },
+      );
+      const updatedPokemon = await this.pokemonsModel.findByIdAndUpdate(
+        createAdoptionDto.pokemonId,
+        { $push: { trainer: id } },
+        { returnDocument: 'after' },
+      );
+      return {
+        status: 'Success',
+        trainer: updatedTrainer,
+        pokemon: updatedPokemon,
+      };
+    } catch {
+      throw new HttpException(
+        'There was a problem with the adoption, try again.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
   }
 
-  findAll() {
-    return `This action returns all adoptions`;
+  async update(id: string, updateAdoptionDto: UpdateAdoptionDto) {
+    try { //copy paste de las 2 validaciones, luego ver como modificar el update
+      const validateTrainer = await this.trainersModel.findById(id);
+      const findPokemon = validateTrainer?.pokemons.find(
+        (e) => e === updateAdoptionDto.pokemonId,
+      );
+      if (findPokemon) throw new Error('Pokemon found');
+    } catch (err) {
+      if (err?.message === 'Pokemon found') {
+        throw new HttpException(
+          `That Pokemon is already adopted by Trainer ${id}, try with another Pokemon.`,
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new HttpException(
+          'Invalid Trainer ID, validate the value and try again.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+    try {
+      await this.pokemonsModel.findById(updateAdoptionDto.pokemonId);
+    } catch {
+      throw new HttpException(
+        'Invalid Pokemon ID, validate the value and try again.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    try {
+      const updatedTrainer = await this.trainersModel.findByIdAndUpdate(
+        id,
+        { $push: { pokemons: updateAdoptionDto.pokemonId } },
+        { returnDocument: 'after' },
+      );
+      const updatedPokemon = await this.pokemonsModel.findByIdAndUpdate(
+        updateAdoptionDto.pokemonId,
+        { $push: { trainer: id } },
+        { returnDocument: 'after' },
+      );
+      return {
+        status: 'Success',
+        trainer: updatedTrainer,
+        pokemon: updatedPokemon,
+      };
+    } catch {
+      throw new HttpException(
+        'There was a problem with the adoption, try again.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+      );
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} adoption`;
-  }
-
-  update(id: number, updateAdoptionDto: UpdateAdoptionDto) {
-    return `This action updates a #${id} adoption`;
-  }
-
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} adoption`;
   }
 }

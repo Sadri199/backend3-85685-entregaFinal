@@ -1,1 +1,3 @@
-export class CreateAdoptionDto {}
+export class CreateAdoptionDto {
+  pokemonId!: string;
+}
