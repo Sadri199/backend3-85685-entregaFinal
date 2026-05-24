@@ -14,7 +14,7 @@ export class Trainer {
   @Prop({ required: true, unique: true })
   email!: string;
 
-  @Prop({ default: 18 })
+  @Prop({ default: 18, min: 1, max: 100 })
   age!: number;
 
   @Prop([String])

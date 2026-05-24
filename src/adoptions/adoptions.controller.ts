@@ -24,7 +24,10 @@ export class AdoptionsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adoptionsService.remove(id);
+  remove(
+    @Param('id') id: string,
+    @Body() updateAdoptionDto: UpdateAdoptionDto,
+  ) {
+    return this.adoptionsService.remove(id, updateAdoptionDto);
   }
 }

@@ -1,14 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import * as z from 'zod';
+import { plainToInstance } from 'class-transformer';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UpdateTrainerDto } from './dto/update-trainer.dto';
+import { ResponseTrainerDto } from './dto/response-trainer.dto';
 import { Trainer, TrainersDocument } from './schema/trainers.schema';
-
-const trainerValidation = z.object({
-  email: z.email(),
-});
 
 @Injectable()
 export class TrainersService {
@@ -17,28 +14,6 @@ export class TrainersService {
   ) {}
 
   async create(createTrainerDto: CreateTrainerDto) {
-    if (
-      !createTrainerDto.first_name ||
-      !createTrainerDto.last_name ||
-      !createTrainerDto.email
-    )
-      throw new HttpException(
-        'Missing Values! first_name, last_name and email are mandatory!',
-        HttpStatus.BAD_REQUEST,
-      );
-
-    if (isNaN(createTrainerDto.age))
-      throw new HttpException('Age must be a number!', HttpStatus.BAD_REQUEST);
-
-    const emailCheck = trainerValidation.safeParse({
-      email: createTrainerDto.email,
-    });
-    if (!emailCheck.success)
-      throw new HttpException(
-        'Invalid email format, enter a correctly formatted email!',
-        HttpStatus.BAD_REQUEST,
-      );
-
     const searchEmail = await this.trainersModel.findOne({
       email: createTrainerDto.email,
     });
@@ -47,8 +22,11 @@ export class TrainersService {
         'This email is already registered, use another account.',
         HttpStatus.BAD_REQUEST,
       );
-
-    return await this.trainersModel.create(createTrainerDto);
+    const creation = await this.trainersModel.create(createTrainerDto);
+    const response = plainToInstance(ResponseTrainerDto, creation, {
+      excludeExtraneousValues: true,
+    });
+    return response;
   }
 
   async findAll() {
@@ -77,21 +55,6 @@ export class TrainersService {
       );
     }
 
-    if (isNaN(updateTrainerDto.age))
-      throw new HttpException('Age must be a number!', HttpStatus.BAD_REQUEST);
-
-    if (updateTrainerDto.first_name.length < 2)
-      //validar class-validator y class-transform, reemplazaria a Zod
-      throw new HttpException(
-        'first_name must have at least 2 characters.',
-        HttpStatus.BAD_REQUEST,
-      );
-    if (updateTrainerDto.last_name.length < 5)
-      throw new HttpException(
-        'last_name must have at least 5 characters.',
-        HttpStatus.BAD_REQUEST,
-      );
-
     const update = await this.trainersModel.findByIdAndUpdate(
       id,
       updateTrainerDto,
@@ -100,10 +63,18 @@ export class TrainersService {
       },
     );
 
-    return update;
+    const response = plainToInstance(ResponseTrainerDto, update, {
+      excludeExtraneousValues: true,
+    });
+    return response;
   }
 
   async remove(id: string) {
-    return await this.trainersModel.findByIdAndDelete(id);
+    const removal = await this.trainersModel.findByIdAndDelete(id)
+
+    const response = plainToInstance(ResponseTrainerDto, removal, {
+      excludeExtraneousValues: true,
+    });
+    return response;
   }
 }
