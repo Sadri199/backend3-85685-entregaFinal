@@ -12,35 +12,15 @@ export class PokemonsService {
   ) {}
 
   async create(createPokemonDto: CreatePokemonDto) {
-    if (
-      !createPokemonDto.name ||
-      !createPokemonDto.species ||
-      !createPokemonDto.type ||
-      !createPokemonDto.sex ||
-      !createPokemonDto.age ||
-      !createPokemonDto.weight ||
-      !createPokemonDto.height
-    )
-      throw new HttpException(
-        'Missing Values! name, species, type, sex, age, weight and height are mandatory!',
-        HttpStatus.BAD_REQUEST,
-      );
-
-    if (
-      isNaN(createPokemonDto.age) ||
-      isNaN(createPokemonDto.weight) ||
-      isNaN(createPokemonDto.height)
-    )
-      throw new HttpException(
-        'The values of age, weight and height must be numbers!',
-        HttpStatus.BAD_REQUEST,
-      );
-
-    return await this.pokemonsModel.create(createPokemonDto);
+    const creation = await this.pokemonsModel.create(createPokemonDto);
+    return creation;
   }
 
   async findAll() {
-    return await this.pokemonsModel.find();
+    return await this.pokemonsModel.find(
+      {},
+      '_id name species type sex age weight height trainer',
+    );
   }
 
   getTypes() {
@@ -87,7 +67,11 @@ export class PokemonsService {
 
   async findOne(id: string) {
     try {
-      const searchId = await this.pokemonsModel.findById(id);
+      const searchId = await this.pokemonsModel.findById(
+        id,
+        '_id name species type sex age weight height trainer',
+      );
+      if (!searchId) throw new Error('Invalid ID');
       return searchId;
     } catch {
       throw new HttpException(
@@ -99,7 +83,8 @@ export class PokemonsService {
 
   async update(id: string, updatePokemonDto: UpdatePokemonDto) {
     try {
-      await this.pokemonsModel.findById(id);
+      const searchId = await this.pokemonsModel.findById(id);
+      if (!searchId) throw new Error('Invalid ID');
     } catch {
       throw new HttpException(
         'Invalid Pokemon ID, validate the value and try again.',
@@ -112,9 +97,9 @@ export class PokemonsService {
       updatePokemonDto,
       {
         returnDocument: 'after',
+        select: '_id name species type sex age weight height trainer',
       },
     );
-
     return update;
   }
 

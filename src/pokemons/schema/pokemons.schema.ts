@@ -51,13 +51,13 @@ export class Pokemon {
   @Prop({ required: true, enum: ['Male', 'Female'] })
   sex!: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: 2, min: 1, max: 100 })
   age!: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, min: 1, max: 100 })
   weight!: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, min: 1, max: 100 })
   height!: number;
 
   @Prop([String])

@@ -56,12 +56,18 @@ export class AdoptionsService {
       const updatedTrainer = await this.trainersModel.findByIdAndUpdate(
         id,
         { $push: { pokemons: createAdoptionDto.pokemonId } },
-        { returnDocument: 'after' },
+        {
+          returnDocument: 'after',
+          select: '_id first_name last_name email age pokemons',
+        },
       );
       const updatedPokemon = await this.pokemonsModel.findByIdAndUpdate(
         createAdoptionDto.pokemonId,
         { $push: { trainer: id } },
-        { returnDocument: 'after' },
+        {
+          returnDocument: 'after',
+          select: '_id name species type sex age weight height trainer',
+        },
       );
       return {
         status: 'Success',
@@ -109,7 +115,10 @@ export class AdoptionsService {
       const updatedTrainer = await this.trainersModel.findByIdAndUpdate(
         id,
         { $push: { pokemons: updateAdoptionDto.pokemonId } },
-        { returnDocument: 'after' },
+        {
+          returnDocument: 'after',
+          select: '_id first_name last_name email age pokemons',
+        },
       );
       const getPokemon = await this.pokemonsModel.findById(
         updateAdoptionDto.pokemonId,

@@ -1,10 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { plainToInstance } from 'class-transformer';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UpdateTrainerDto } from './dto/update-trainer.dto';
-import { ResponseTrainerDto } from './dto/response-trainer.dto';
 import { Trainer, TrainersDocument } from './schema/trainers.schema';
 
 @Injectable()
@@ -23,19 +21,24 @@ export class TrainersService {
         HttpStatus.BAD_REQUEST,
       );
     const creation = await this.trainersModel.create(createTrainerDto);
-    const response = plainToInstance(ResponseTrainerDto, creation, {
-      excludeExtraneousValues: true,
-    });
-    return response;
+    return creation;
   }
 
   async findAll() {
-    return await this.trainersModel.find();
+    const getAll = await this.trainersModel.find(
+      {},
+      '_id first_name last_name email age pokemons ',
+    );
+    return getAll;
   }
 
   async findOne(id: string) {
     try {
-      const searchId = await this.trainersModel.findById(id);
+      const searchId = await this.trainersModel.findById(
+        id,
+        '_id first_name last_name email age pokemons',
+      );
+      if (!searchId) throw new Error('Invalid ID');
       return searchId;
     } catch {
       throw new HttpException(
@@ -47,7 +50,8 @@ export class TrainersService {
 
   async update(id: string, updateTrainerDto: UpdateTrainerDto) {
     try {
-      await this.trainersModel.findById(id);
+      const searchId = await this.trainersModel.findById(id);
+      if (!searchId) throw new Error('Invalid ID');
     } catch {
       throw new HttpException(
         'Invalid Trainer ID, validate the value and try again.',
@@ -60,21 +64,14 @@ export class TrainersService {
       updateTrainerDto,
       {
         returnDocument: 'after',
+        select: '_id first_name last_name email age pokemons',
       },
     );
-
-    const response = plainToInstance(ResponseTrainerDto, update, {
-      excludeExtraneousValues: true,
-    });
-    return response;
+    return update;
   }
 
   async remove(id: string) {
-    const removal = await this.trainersModel.findByIdAndDelete(id)
-
-    const response = plainToInstance(ResponseTrainerDto, removal, {
-      excludeExtraneousValues: true,
-    });
-    return response;
+    const removal = await this.trainersModel.findByIdAndDelete(id);
+    return removal;
   }
 }
