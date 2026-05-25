@@ -1,98 +1,124 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Backend 3 85685 entrega-final
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS backend application designed for Coderhouse's Backend 3 course for managing trainers, pokemons, and adoptions using MongoDB.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The project is built with NestJS, Mongoose, class-validator, and Jest for testing. It includes dedicated modules for trainers, pokemons, and adoption workflows, along with middleware for request logging.
 
-## Description
+## Project Setup
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+1. Install dependencies
 
 ```bash
-$ npm install
+npm install
 ```
 
-## Compile and run the project
+2. Create a `.env` file at the project root with your MongoDB connection string:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+MONGO_URL=mongodb://localhost:27017/your-db-name
 ```
 
-## Run tests
+3. Start the application
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:dev
 ```
 
-## Deployment
+## Run
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- `npm run start` - start the server
+- `npm run start:dev` - start in watch mode
+- `npm run start:prod` - run compiled production build
+- `npm run build` - compile TypeScript into `dist`
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Testing
+
+- `npm run test` - run Jest unit tests
+- `npm run test:watch` - run tests in watch mode
+- `npm run test:cov` - generate coverage report
+- `npm run test:e2e` - run end-to-end tests
+
+## Swagger
+
+This project uses Swagger for API documentation and interactive testing.
+
+If Swagger is enabled in `src/main.ts`, open the docs in your browser after starting the app.
+
+Common setup:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install --save @nestjs/swagger swagger-ui-express
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Example `main.ts` configuration:
 
-## Resources
+```ts
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
-Check out a few resources that may come in handy when working with NestJS:
+const config = new DocumentBuilder()
+  .setTitle('Backend 3 API')
+  .setDescription('Trainer, Pokemon and Adoption API documentation')
+  .setVersion('1.0')
+  .build();
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+const document = SwaggerModule.createDocument(app, config);
+SwaggerModule.setup('api', app, document);
+```
 
-## Support
+Then access Swagger at `http://localhost:3000/api` (or your configured port).
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Structure
 
-## Stay in touch
+- `src/main.ts` - application bootstrap entry point
+- `src/app.module.ts` - main Nest module, loads config, MongoDB, and feature modules
+- `src/middleware/logger.middleware.ts` - global request logger middleware
+- `src/trainers/` - trainer module, controller, service, DTOs, schema, and tests
+- `src/pokemons/` - pokemon module, controller, service, DTOs, schema, and tests
+- `src/adoptions/` - adoption module, controller, service, DTOs, entity, and tests
+- `src/**/*.spec.ts` - unit test files for controllers and services
+- `test/jest-e2e.json` - Jest configuration for end-to-end tests
+- `package.json` - scripts, dependencies, and project metadata
+- `tsconfig.json` - TypeScript compiler configuration
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Endpoint Interaction Graph
 
-## License
+```mermaid
+flowchart LR
+  trainer[/🐬 Trainers endpoint <br/>/trainers/] -->|create, read, update, delete| trainerService[Trainers Service]
+  pokemon[/🐬 Pokemons endpoint <br/>/pokemons/] -->|create, read, update, delete| pokemonService[Pokemons Service]
+  pokemonTypes[/Types <br/>/pokemons/types/] -->|lookup| pokemonService
+  pokemonSpecies[/Species <br/>/pokemons/species/] -->|lookup| pokemonService
+  adoption[/🐬 Adoptions endpoint <br/>/adoptions/:id/] -->|create, update, delete adoption| adoptionService[Adoptions Service]
+  adoptionService --> trainerService
+  adoptionService --> pokemonService
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This graph shows how the API routes connect to the service layer. The `adoptions` endpoints coordinate changes across both trainers and pokemons.
+
+## Documentations
+
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Mongoose Documentation](https://mongoosejs.com/docs/guide.html)
+- [class-validator Documentation](https://github.com/typestack/class-validator)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [ESLint Documentation](https://eslint.org/docs/latest)
+- [Prettier Documentation](https://prettier.io/docs/en/index.html)
+
+## Links
+
+- [Main Google Doc, it contains Testing Cases and Other Information](https://docs.google.com/document/d/1obrFWdGFR_8IteD25hacEAS3sQ6lSi0fgsIUw6pLrhE/edit?usp=sharing)
+- [GitHub Repo](https://github.com/Sadri199/backend3-85685-entregaFinal)
+
+## Disclaimer
+
+- This project is a fan-made application using the Pokemon name and related concepts for educational purposes only.
+- It is not monetized, licensed, endorsed, or affiliated with Nintendo, Game Freak, The Pokemon Company, or any related copyright holders.
+- If you plan to share or publish this application, keep it non-commercial and clearly mark it as fan content.
+
+## Notes
+
+- Build currently passes with `npm run build`.
+- Linting currently reports issues in DTO and service files related to unsafe `any` access and unused variables. ╰（‵□′）╯
+- There's a Postman Collection attached to this project so you can check each Endpoint.
+
+

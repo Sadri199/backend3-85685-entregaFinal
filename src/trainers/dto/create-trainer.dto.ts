@@ -8,6 +8,7 @@ import {
   Max,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTrainerDto {
   @IsString()
@@ -28,6 +29,11 @@ export class CreateTrainerDto {
   @Transform(({ value }) => value.toLowerCase())
   email!: string;
 
+  @ApiProperty({
+    description: 'The age of the trainer.',
+    minimum: 1,
+    default: 18,
+  })
   @IsNumber()
   @Min(1)
   @Max(100)

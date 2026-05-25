@@ -20,8 +20,8 @@ export class AdoptionsService {
         (e) => e === createAdoptionDto.pokemonId,
       );
       if (findPokemon) throw new Error('Pokemon found');
-    } catch (err) {
-      if (err?.message === 'Pokemon found') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Pokemon found') {
         throw new HttpException(
           `That Pokemon is already adopted by Trainer ${id}, try with another Pokemon.`,
           HttpStatus.BAD_REQUEST,
@@ -38,8 +38,8 @@ export class AdoptionsService {
         createAdoptionDto.pokemonId,
       );
       if (validatePokemon!.trainer.length > 0) throw new Error('Pokemon Owned');
-    } catch (err) {
-      if (err.message === 'Pokemon Owned') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Pokemon Owned') {
         throw new HttpException(
           `That Pokemon has an owner, it cannot be adopted.`,
           HttpStatus.BAD_REQUEST,
@@ -89,8 +89,8 @@ export class AdoptionsService {
         (e) => e === updateAdoptionDto.pokemonId,
       );
       if (findPokemon) throw new Error('Pokemon found');
-    } catch (err) {
-      if (err?.message === 'Pokemon found') {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Pokemon found') {
         throw new HttpException(
           `That Pokemon is already adopted by Trainer ${id}, try with another Pokemon.`,
           HttpStatus.BAD_REQUEST,
@@ -123,12 +123,11 @@ export class AdoptionsService {
       const getPokemon = await this.pokemonsModel.findById(
         updateAdoptionDto.pokemonId,
       );
-      const oldTrainer = await this.trainersModel.findByIdAndUpdate(
-        getPokemon?.trainer,
-        { $pull: { pokemons: updateAdoptionDto.pokemonId } },
-      );
-      const popped = getPokemon?.trainer.pop();
-      const pushed = getPokemon?.trainer.push(id);
+      await this.trainersModel.findByIdAndUpdate(getPokemon?.trainer, {
+        $pull: { pokemons: updateAdoptionDto.pokemonId },
+      });
+      getPokemon?.trainer.pop();
+      getPokemon?.trainer.push(id);
       await getPokemon?.save();
 
       return {
@@ -136,8 +135,7 @@ export class AdoptionsService {
         trainer: updatedTrainer,
         pokemon: getPokemon,
       };
-    } catch (err) {
-      console.log(err?.message);
+    } catch {
       throw new HttpException(
         'There was a problem with the adoption, try again.',
         HttpStatus.SERVICE_UNAVAILABLE,
@@ -192,8 +190,7 @@ export class AdoptionsService {
           pokemon: getPokemon,
         };
       }
-    } catch (err) {
-      console.log(err?.message);
+    } catch {
       throw new HttpException(
         'There was a problem with the adoption, try again.',
         HttpStatus.SERVICE_UNAVAILABLE,

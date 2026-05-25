@@ -1,0 +1,369 @@
+{
+  "info": {
+    "_postman_id": "98a89c88-2ee7-4f02-864b-88e53b5dc206",
+    "name": "Backend 3 Entrega",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "47279724"
+  },
+  "item": [
+    {
+      "name": "Trainers",
+      "item": [
+        {
+          "name": "Get All Trainers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/trainers",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "trainers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Trainer By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/trainers/6a13667a1451ad8edb1dcfd3",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "trainers",
+                "6a13667a1451ad8edb1dcfd3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Trainer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"first_name\": \"zzo\",\r\n    \"last_name\": \"xoz\",\r\n    \"email\": \"wer4@mail.com\",\r\n    \"age\": 33\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/trainers",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "trainers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Trainer",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"first_name\": \"xvxvc\",\r\n    \"last_name\": \"zugah\",\r\n    \"age\": 99\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/trainers/6a0cd95c4a9722661154fc8e",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "trainers",
+                "6a0cd95c4a9722661154fc8e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Trainer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/trainers/6a0ce1e5d90112a5a61f6c46",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "trainers",
+                "6a0ce1e5d90112a5a61f6c46"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pokemons",
+      "item": [
+        {
+          "name": "Create Pokemon",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Magus\",\r\n    \"species\": \"Magnemite\",\r\n    \"type\": \"Steel\",\r\n    \"sex\": \"Female\",\r\n    \"age\": 3,\r\n    \"weight\": 6,\r\n    \"height\": 4\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/pokemons",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Pokemons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/pokemons",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pokemons Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/pokemons/types",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons",
+                "types"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pokemons Species",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/pokemons/species",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons",
+                "species"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pokemon By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/pokemons/6a11090dc1fe46bf5c6a51ef",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons",
+                "6a11090dc1fe46bf5c6a51ef"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Pokemon Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Cocky\",\r\n    \"age\": 64\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/pokemons/6a11090dc1fe46bf5c6a51ef",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons",
+                "6a11090dc1fe46bf5c6a51ef"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Pokemon",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "localhost:3000/pokemons/6a1108bae417ff774c8ec238",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "pokemons",
+                "6a1108bae417ff774c8ec238"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Adoptions",
+      "item": [
+        {
+          "name": "Create Adoption",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"pokemonId\": \"6a135d127f7b4e598a228fe3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/adoptions/6a0cd95c4a9722661154fc8e",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "adoptions",
+                "6a0cd95c4a9722661154fc8e"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Adoption",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"pokemonId\": \"6a135d127f7b4e598a228fe3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/adoptions/6a13393625ef273b26af1074",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "adoptions",
+                "6a13393625ef273b26af1074"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Adoption",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"pokemonId\": \"6a135d127f7b4e598a228fe3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:3000/adoptions/6a0cd95c4a9722661154fc8e",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "adoptions",
+                "6a0cd95c4a9722661154fc8e"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import { Controller, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { AdoptionsService } from './adoptions.service';
 import { CreateAdoptionDto } from './dto/create-adoption.dto';
 import { UpdateAdoptionDto } from './dto/update-adoption.dto';
@@ -8,6 +9,7 @@ export class AdoptionsController {
   constructor(private readonly adoptionsService: AdoptionsService) {}
 
   @Post(':id')
+  @ApiOperation({ description: 'Create a new Pokemon adoption for a trainer.' })
   create(
     @Param('id') id: string,
     @Body() createAdoptionDto: CreateAdoptionDto,
@@ -16,6 +18,7 @@ export class AdoptionsController {
   }
 
   @Put(':id')
+  @ApiOperation({ description: 'Update an existing adoption by trainer ID.' })
   update(
     @Param('id') id: string,
     @Body() updateAdoptionDto: UpdateAdoptionDto,
@@ -24,6 +27,7 @@ export class AdoptionsController {
   }
 
   @Delete(':id')
+  @ApiOperation({ description: 'Remove an adoption from a trainer by ID.' })
   remove(
     @Param('id') id: string,
     @Body() updateAdoptionDto: UpdateAdoptionDto,
