@@ -38,4 +38,6 @@ export class CreateTrainerDto {
   @Min(1)
   @Max(100)
   age!: number;
+
+  pokemons!: string[];
 }
