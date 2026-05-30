@@ -1,6 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { TrainersController } from './trainers.controller';
 import { TrainersService } from './trainers.service';
+import { CreateTrainerDto } from './dto/create-trainer.dto';
+import { UpdateTrainerDto } from './dto/update-trainer.dto';
 
 const mockTrainersService = {
   create: jest.fn(),
@@ -37,7 +40,6 @@ describe('TrainersController', () => {
     expect(controller).toBeDefined();
   });
 
-  // Validate
   describe('POST /trainers - create', () => {
     it('should create a trainer successfully', async () => {
       const createDto: CreateTrainerDto = {
@@ -81,7 +83,6 @@ describe('TrainersController', () => {
     });
   });
 
-  // Validate
   describe('GET /trainers - findAll', () => {
     it('should return all trainers', async () => {
       const trainers = [
@@ -121,7 +122,6 @@ describe('TrainersController', () => {
     });
   });
 
-  // Validate
   describe('GET /trainers/:id - findOne', () => {
     it('should return a trainer by ID', async () => {
       const trainerId = '507f1f77bcf86cd799439011';
@@ -155,7 +155,6 @@ describe('TrainersController', () => {
     });
   });
 
-  // Validate
   describe('PUT /trainers/:id - update', () => {
     it('should update a trainer successfully', async () => {
       const trainerId = '507f1f77bcf86cd799439011';
@@ -196,7 +195,6 @@ describe('TrainersController', () => {
     });
   });
 
-  // Validate
   describe('DELETE /trainers/:id - remove', () => {
     it('should delete a trainer successfully', async () => {
       const trainerId = '507f1f77bcf86cd799439011';
