@@ -137,18 +137,64 @@ SwaggerModule.setup('api', app, document);
 
 Then access Swagger at `http://localhost:3000/api` (or your configured port).
 
+## Docker
+
+This project can be built and run as a Docker image.
+
+### Build the image
+
+```bash
+docker build -t backend3-proyect .
+```
+
+### Run the container
+
+The application listens on the port configured by `PORT` inside the container. By default, NestJS uses `3080` unless `PORT` is provided.
+
+Example using `PORT=3000`:
+
+```bash
+docker run -p 3000:3000 \
+  -e PORT=3000 \
+  -e MONGO_URL="your_URL_to_Mongo" \
+  backend3-proyect
+```
+
+If you prefer to keep the app on `3080` inside the container:
+
+```bash
+docker run -p 3000:3080 \
+  -e MONGO_URL="your_URL_to_Mongo" \
+  backend3-proyect
+```
+
+### Notes
+
+- `MONGO_URL` must be provided at runtime; do not rely on `.env` inside the image.
+- If host port `3000` is busy, map another host port like `-p 3001:3000`.
+- After starting the container, open `http://localhost:3000/` (or the host port you used).
+
 ## Structure
 
-- `src/main.ts` - application bootstrap entry point
-- `src/app.module.ts` - main Nest module, loads config, MongoDB, and feature modules
-- `src/middleware/logger.middleware.ts` - global request logger middleware
-- `src/trainers/` - trainer module, controller, service, DTOs, schema, and tests
-- `src/pokemons/` - pokemon module, controller, service, DTOs, schema, and tests
-- `src/adoptions/` - adoption module, controller, service, DTOs, entity, and tests
-- `src/**/*.spec.ts` - unit test files for controllers and services
-- `test/jest-e2e.json` - Jest configuration for end-to-end tests
-- `package.json` - scripts, dependencies, and project metadata
+- `Dockerfile` - container image build instructions
+- `package-lock.json` - exact npm dependency tree
+- `package.json` - project scripts, dependencies, and metadata
+- `nest-cli.json` - Nest CLI configuration
 - `tsconfig.json` - TypeScript compiler configuration
+- `tsconfig.build.json` - build-specific TypeScript config
+- `eslint.config.mjs` - ESLint rules and linting config
+- `.prettierrc` - Prettier formatting settings
+- `Backend 3 Entrega.postman_collection.json` - Postman collection for API testing
+- `.vscode/` - workspace settings and editor config
+- `src/` - application source code and modules
+  - `src/main.ts` - application bootstrap entry point
+  - `src/app.module.ts` - root Nest module, imports config and feature modules
+  - `src/middleware/logger.middleware.ts` - request logging middleware
+  - `src/trainers/` - trainer module, controller, service, DTOs, schema, and tests
+  - `src/pokemons/` - pokemon module, controller, service, DTOs, schema, and tests
+  - `src/adoptions/` - adoption module, controller, service, DTOs, schema, and tests
+- `test/` - end-to-end test files and Jest e2e config
+  - `test/jest-e2e.json` - e2e Jest configuration
 
 ## Endpoint Interaction Graph
 
@@ -170,14 +216,19 @@ This graph shows how the API routes connect to the service layer. The `adoptions
 - [NestJS Documentation](https://docs.nestjs.com)
 - [Mongoose Documentation](https://mongoosejs.com/docs/guide.html)
 - [class-validator Documentation](https://github.com/typestack/class-validator)
+- [class-transformer Documentation](https://www.npmjs.com/package/class-transformer)
 - [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [Supertest Documentation](https://www.npmjs.com/package/supertest)
 - [ESLint Documentation](https://eslint.org/docs/latest)
 - [Prettier Documentation](https://prettier.io/docs/en/index.html)
+- [Swagger Documentation](https://swagger.io/docs/specification/v3_0/about/)
+- [Docker Documentation](https://docs.docker.com/get-started/)
 
 ## Links
 
 - [Main Google Doc, it contains Testing Cases and Other Information](https://docs.google.com/document/d/1obrFWdGFR_8IteD25hacEAS3sQ6lSi0fgsIUw6pLrhE/edit?usp=sharing)
 - [GitHub Repo](https://github.com/Sadri199/backend3-85685-entregaFinal)
+- [DockerHub Repo](https://hub.docker.com/repository/docker/sadri97/backend3-proyect/general)
 
 ## Disclaimer
 
