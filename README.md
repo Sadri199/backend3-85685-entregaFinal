@@ -211,6 +211,11 @@ flowchart LR
 
 This graph shows how the API routes connect to the service layer. The `adoptions` endpoints coordinate changes across both trainers and pokemons.
 
+## Railway
+This API can also be accessed by Railway. Keep in mind that there are 3 Environments there: 'Dev', 'QA' and 'Production'.
+Instead of using `http://localhost:3000` you can use `backend3-85685-entregafinal-dev.up.railway.app` as the base URL.
+The rest of the links are in the [Links](#links) section.
+
 ## Documentations
 
 - [NestJS Documentation](https://docs.nestjs.com)
@@ -223,12 +228,18 @@ This graph shows how the API routes connect to the service layer. The `adoptions
 - [Prettier Documentation](https://prettier.io/docs/en/index.html)
 - [Swagger Documentation](https://swagger.io/docs/specification/v3_0/about/)
 - [Docker Documentation](https://docs.docker.com/get-started/)
+- [Railway Documentation](https://docs.railway.com/)
 
 ## Links
 
 - [Main Google Doc, it contains Testing Cases and Other Information](https://docs.google.com/document/d/1obrFWdGFR_8IteD25hacEAS3sQ6lSi0fgsIUw6pLrhE/edit?usp=sharing)
 - [GitHub Repo](https://github.com/Sadri199/backend3-85685-entregaFinal)
+  - [Dev Branch](https://github.com/Sadri199/backend3-85685-entregaFinal/tree/dev)
+  - [QA Branch](https://github.com/Sadri199/backend3-85685-entregaFinal/tree/qa)
 - [DockerHub Repo](https://hub.docker.com/repository/docker/sadri97/backend3-proyect/general)
+- [Railway Development] -> backend3-85685-entregafinal-dev.up.railway.app
+- [Railway QA] -> backend3-85685-entregafinal-qa.up.railway.app
+- [Railway Production] -> backend3-85685-entregafinal-production.up.railway.app
 
 ## Disclaimer
 
