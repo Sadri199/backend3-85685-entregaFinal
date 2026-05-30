@@ -33,10 +33,80 @@ npm run start:dev
 
 ## Testing
 
-- `npm run test` - run Jest unit tests
-- `npm run test:watch` - run tests in watch mode
-- `npm run test:cov` - generate coverage report
-- `npm run test:e2e` - run end-to-end tests
+This project includes comprehensive unit tests, integration tests, and end-to-end tests with **121 total tests**.
+
+### Unit & Integration Tests
+
+Unit tests verify individual service methods and controller endpoints with mocked dependencies.
+Integration tests verify controller endpoints work correctly with mocked services.
+
+```bash
+npm run test              # Run all unit and integration tests
+npm run test:watch       # Run tests in watch mode (auto-rerun on changes)
+npm run test:cov         # Generate coverage report
+```
+
+**Test Files:**
+- `src/trainers/trainers.service.spec.ts` - Unit tests for trainers service (create, findAll, findOne, update, remove)
+- `src/trainers/trainers.controller.spec.ts` - Integration tests for trainers endpoints
+- `src/pokemons/pokemons.service.spec.ts` - Unit tests for pokemons service (create, findAll, findOne, update, remove, getTypes, getSpecies)
+- `src/pokemons/pokemons.controller.spec.ts` - Integration tests for pokemons endpoints
+- `src/adoptions/adoptions.service.spec.ts` - Unit tests for adoptions service (create, update, remove)
+- `src/adoptions/adoptions.controller.spec.ts` - Integration tests for adoptions endpoints
+- `src/app.controller.spec.ts` - Unit tests for root endpoint
+
+### End-to-End Tests
+
+E2E tests verify the entire application stack from HTTP request to database response, testing real flows without mocking services.
+
+```bash
+npm run test:e2e                                    # Run all e2e tests
+npm run test:e2e -- trainers.e2e-spec.ts          # Run trainers e2e tests
+npm run test:e2e -- pokemons.e2e-spec.ts          # Run pokemons e2e tests
+npm run test:e2e -- adoptions.e2e-spec.ts         # Run adoptions e2e tests
+npm run test:e2e -- app.e2e-spec.ts               # Run root endpoint e2e tests
+```
+
+**E2E Test Files:**
+- `test/app.e2e-spec.ts` - Tests for root API endpoint (9 tests)
+- `test/trainers.e2e-spec.ts` - Tests for trainers CRUD endpoints (6 tests)
+- `test/pokemons.e2e-spec.ts` - Tests for pokemons CRUD and helper endpoints (7 tests)
+- `test/adoptions.e2e-spec.ts` - Tests for adoption create/transfer/remove flows (3 tests)
+
+**Results:**
+- **Test Suites:** 4 passed
+- **Tests:** 27 passed
+- **Execution Time:** ~4.5s
+
+### Test Coverage Breakdown
+
+**Trainers Module:**
+- ✅ Create trainer (validates duplicate emails)
+- ✅ Retrieve all trainers
+- ✅ Retrieve single trainer by ID
+- ✅ Update trainer
+- ✅ Delete trainer
+- ✅ Full CRUD e2e flow
+
+**Pokemons Module:**
+- ✅ Create pokemon
+- ✅ Retrieve all pokemons
+- ✅ Retrieve single pokemon by ID
+- ✅ Update pokemon
+- ✅ Delete pokemon
+- ✅ Get pokemon types list
+- ✅ Get pokemon species list
+- ✅ Full CRUD e2e flow
+
+**Adoptions Module:**
+- ✅ Create adoption (validate trainer and pokemon exist)
+- ✅ Update adoption (transfer pokemon to different trainer)
+- ✅ Remove adoption
+- ✅ Full adoption flow e2e
+
+**Root Endpoint:**
+- ✅ GET / returns API info with available routes
+- ✅ Validates response structure and content
 
 ## Swagger
 
