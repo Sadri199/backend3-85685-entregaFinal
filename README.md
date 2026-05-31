@@ -183,17 +183,20 @@ docker run -p 3000:3080 \
 - `tsconfig.json` - TypeScript compiler configuration
 - `tsconfig.build.json` - build-specific TypeScript config
 - `eslint.config.mjs` - ESLint rules and linting config
-- `.prettierrc` - Prettier formatting settings
 - `Backend 3 Entrega.postman_collection.json` - Postman collection for API testing
-- `.vscode/` - workspace settings and editor config
 - `src/` - application source code and modules
   - `src/main.ts` - application bootstrap entry point
   - `src/app.module.ts` - root Nest module, imports config and feature modules
-  - `src/middleware/logger.middleware.ts` - request logging middleware
+  - `src/app.service.ts` - root Nest Service, it explains the different routes available
+  - `src/app.controller.ts` - root Nest Controller, it contains the only Endpoint available at Root
+  - `src/*.*.spec.ts` - either Unit Test (service.spec) or Integration Test (controller.spec) files
+  - `src/middleware/` - middleware folder
+    - `src/middleware/logger.middleware.ts` - request logging middleware
   - `src/trainers/` - trainer module, controller, service, DTOs, schema, and tests
   - `src/pokemons/` - pokemon module, controller, service, DTOs, schema, and tests
   - `src/adoptions/` - adoption module, controller, service, DTOs, schema, and tests
 - `test/` - end-to-end test files and Jest e2e config
+  - `test/*.e2e-spec.ts` - e2e test files
   - `test/jest-e2e.json` - e2e Jest configuration
 
 ## Endpoint Interaction Graph
